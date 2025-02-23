@@ -10,6 +10,6 @@ void TCA9548A::selectBus(uint8_t bus) {
   Wire.write(1 << bus);               
   byte status = Wire.endTransmission();  
 
-    Serial.print("Selected bus: ");
-    Serial.println(bus);
+    // Serial.print("Selected bus: ");
+    // Serial.println(bus);
 }
