@@ -10,6 +10,7 @@ PIDControl::PIDControl(float Kp, float Ki, float Kd) {
 
 void PIDControl::begin(int pin) {
   myServo.attach(pin);
+  targetAngle = 0;
 }
 
 void PIDControl::setTargetAngle(float targetAngle) {

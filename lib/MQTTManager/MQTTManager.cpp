@@ -15,6 +15,7 @@ void MQTTManager::loop() {
     delay(10);  // <- fixes some issues with WiFi stability
 
     if (!client.connected()) {
+        Serial.println("Lost connection, attempting to reconnect...");
         connect();
     }   
 }

@@ -11,9 +11,9 @@
 WiFiConnect wifi(WIFI_SSID, WIFI_PASSWORD);
 bool wasConnected = true;
 
-const char mqtt_broker[] = "test.mosquitto.org";
-const char mqtt_topic[] = "group/command";
-const char mqtt_client_id[] = "arduino_group_x";
+const char mqtt_broker[]="test.mosquitto.org";
+const char mqtt_topic[] = "ProjectGroup1.2/command";
+const char mqtt_client_id[] = "JaChaeam";
 int MQTT_PORT = 1883;
 
 MQTTManager mqtt(mqtt_broker, mqtt_topic, mqtt_client_id, MQTT_PORT);
@@ -35,6 +35,13 @@ void setup() {
     servo_joint2.attach(14);
     servo_joint3.attach(15);
     servo_gripper.attach(16);
+
+    servo_joint1.write(0);
+    servo_joint2.write(0);
+    servo_joint3.write(0);
+    servo_gripper.write(0);
+
+    delay(10000);
 }
 
 void loop() {
