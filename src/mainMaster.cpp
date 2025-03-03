@@ -13,7 +13,7 @@ bool wasConnected = true;
 
 const char mqtt_broker[]="test.mosquitto.org";
 const char mqtt_topic[] = "ProjectGroup1.2/command";
-const char mqtt_client_id[] = "JaChaeam";
+const char mqtt_client_id[] = "mqtt-tiles-1.17.0-7ba8e9";
 int MQTT_PORT = 1883;
 
 MQTTManager mqtt(mqtt_broker, mqtt_topic, mqtt_client_id, MQTT_PORT);
@@ -21,6 +21,8 @@ MQTTManager mqtt(mqtt_broker, mqtt_topic, mqtt_client_id, MQTT_PORT);
 PIDControl pid(1.0, 0.1, 0.1); // Kp Ki Kd
 
 Servo servo_joint1, servo_joint2, servo_joint3, servo_gripper;
+
+void messageReceived(String &topic, String &payload);
 
 void setup() {
     wifi.connect();

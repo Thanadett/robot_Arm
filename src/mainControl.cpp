@@ -12,7 +12,7 @@ bool wasConnected = true;
 
 const char mqtt_broker[]="test.mosquitto.org";
 const char mqtt_topic[] = "ProjectGroup1.2/command";
-const char mqtt_client_id[] = "Manlnwza";
+const char mqtt_client_id[] = "mqtt-tiles-1.17.0-7ba8e9";
 int MQTT_PORT = 1883;
 
 MQTTManager mqtt(mqtt_broker, mqtt_topic, mqtt_client_id, MQTT_PORT);
@@ -25,17 +25,12 @@ MagneticEn magEn_gripper;
 
 TCA9548A tca;
 
-void messageReceived(String &topic, String &payload) {
-    Serial.println("Incoming: " + topic + " - " + payload);
-}
-
 void setup() {
     Serial.begin(115200);
     delay(2000);
     wifi.connect();
     wasConnected = wifi.isConnected();
 
-    mqtt.setMessageCallback(messageReceived);
     mqtt.begin();
 
     Wire.begin(21, 22);
