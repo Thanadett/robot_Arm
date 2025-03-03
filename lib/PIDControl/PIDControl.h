@@ -10,7 +10,9 @@ class PIDControl {
     void begin(int pin); 
     void setTargetAngle(float targetAngle);
     void update();
-    float getCurrentAngle();
+    // float getCurrentAngle();
+    void getCurrentAngle(float currentAngle);
+    float warpDegree(float degree);
 
   private:
     float Kp, Ki, Kd;

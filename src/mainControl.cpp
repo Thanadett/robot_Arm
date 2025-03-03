@@ -38,30 +38,33 @@ void setup() {
     mqtt.setMessageCallback(messageReceived);
     mqtt.begin();
 
-    Wire.begin();
+    Wire.begin(21, 22);
 }
 
 void loop() {
     wifi.loop();
     mqtt.loop();
-    Serial.println("1");
-
+    
     tca.selectBus(0);
+    delay(10);
     int angle_base = magEn_base.getAngle();
 
     tca.selectBus(1);
+    delay(10);
     int angle_joint1= magEn_joint1.getAngle();
-
+    
     tca.selectBus(2);
+    delay(10);
     int angle_joint2 = magEn_joint2.getAngle();
-
+    
     tca.selectBus(3);
+    delay(10);
     int angle_joint3 = magEn_joint3.getAngle();
-
+    
     tca.selectBus(4);
+    delay(10);
     int angle_gripper = magEn_gripper.getAngle();
-
-
+    
     String message = "Angle_base: " + String(angle_base) + "\nAngle_joint1: " + String(angle_joint1) + "\nAngle_joint2: " + String(angle_joint2) +"\nAngle_joint3: " + String(angle_joint3) + "\nAngle_gripper: " + String(angle_gripper);
     mqtt.publish(message.c_str());
     Serial.println("Published: " + message);

@@ -6,7 +6,7 @@
 
 class TCA9548A {
     public:
-      TCA9548A(uint8_t address = 0x70);  // Constructor
+      // TCA9548A(uint8_t address);  // Constructor
       void selectBus(uint8_t bus);        // Function to get Address
     
     private:

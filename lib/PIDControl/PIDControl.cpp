@@ -14,30 +14,36 @@ void PIDControl::begin(int pin) {
 }
 
 void PIDControl::setTargetAngle(float targetAngle) {
-  this -> targetAngle = targetAngle;
+  this -> targetAngle = warpDegree(targetAngle);
 }
 
-float PIDControl::getCurrentAngle() {
-  currentAngle = encoder.getAngle(); // return
-  return currentAngle;
+void PIDControl::getCurrentAngle(float currentAngle) {
+  this -> currentAngle = warpDegree(currentAngle);
 }
 
 void PIDControl::update() {
-  float error = targetAngle - getCurrentAngle();
+  float error = warpDegree(targetAngle - currentAngle);
 
   integral += error;
+  integral = constrain(integral, -100, 100);
+
   float derivative = error - previousError;
 
   float output = Kp * error + Ki * integral + Kd * derivative;
+  output = constrain(output, -500, 500);
+
   Serial.println(output);
 
-  if (output > 0) {
-    myServo.writeMicroseconds(1500 + output);
-  } else if (output < 0) {
-    myServo.writeMicroseconds(1500 + output);
-  } else {
+  if (abs(error) < 0.5) { 
     myServo.writeMicroseconds(1500);
+    integral = 0;
+  } else {
+    myServo.writeMicroseconds(1500 + output);
   }
 
   previousError = error;
+}
+
+float PIDControl::warpDegree(float degree){
+  return degree > 180 ? degree -360 : degree < -180 ? degree + 360 : degree;
 }

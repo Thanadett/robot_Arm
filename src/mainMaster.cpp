@@ -41,7 +41,7 @@ void setup() {
     servo_joint3.write(0);
     servo_gripper.write(0);
 
-    delay(10000);
+    delay(5000);
 }
 
 void loop() {
