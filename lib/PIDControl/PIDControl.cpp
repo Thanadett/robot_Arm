@@ -32,7 +32,7 @@ void PIDControl::update() {
   float output = Kp * error + Ki * integral + Kd * derivative;
   output = constrain(output, -500, 500);
 
-  Serial.println(output);
+  // Serial.println(output);
 
   if (abs(error) < 0.5) { 
     myServo.writeMicroseconds(1500);

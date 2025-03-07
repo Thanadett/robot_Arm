@@ -11,7 +11,7 @@ public:
     void loop();
     void connect();
     bool isConnected();
-    void publish(const char* message);
+    void publish(String mqttTopic,String message);
     void setMessageCallback(void (*callback)(String&, String&));
 
 private:

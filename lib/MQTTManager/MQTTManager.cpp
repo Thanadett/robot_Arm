@@ -35,7 +35,7 @@ bool MQTTManager::isConnected() {
     return client.connected();
 }
 
-void MQTTManager::publish(const char* message) {
+void MQTTManager::publish(String mqttTopic, String message) {
     client.publish(mqttTopic, message);
 }
 

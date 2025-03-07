@@ -8,7 +8,7 @@
 #include <MQTT.h>
 #include "TCA9548A.h"
 
-#define WIFI_SSID "iPhone T"
+#define WIFI_SSID "iPhoneT"
 #define WIFI_PASSWORD "12345678"
 
 // WiFiConnect wifi(WIFI_SSID, WIFI_PASSWORD);
@@ -28,7 +28,6 @@ MagneticEn magEn_joint1;
 MagneticEn magEn_joint2;
 MagneticEn magEn_joint3;
 MagneticEn magEn_gripper;
-
 
 TCA9548A tca;
 
@@ -50,13 +49,11 @@ void connect() {
   
     mqtt.subscribe(mqtt_topic);
     // client.unsubscribe("/hello");
-}
+  }
 
 void setup() {
     Serial.begin(115200);
-    WiFi.begin(WIFI_SSID, WIFI_PASSWORD);
     Wire.begin();
-    Wire.begin(21, 22);
     Serial.println("Scanning I2C devices...");
     for (byte address = 1; address < 127; address++) {
         Wire.beginTransmission(address);
@@ -67,67 +64,60 @@ void setup() {
     }
     Serial.println("Scan complete.");
     delay(3000);
-
+    
+    WiFi.begin(WIFI_SSID, WIFI_PASSWORD);
     // wasConnected = wifi.isConnected();
 
     // mqtt.setMessageCallback(messageReceived);
     mqtt.begin(mqtt_broker, MQTT_PORT, net);
     mqtt.subscribe(mqtt_topic);
+    Wire.begin(21, 22);
 }
 
 void loop() {
     // wifi.loop();
-    mqtt.loop();  
-    delay(10);
+    mqtt.loop();
 
-    if (!mqtt.connected()) {
-        connect();
-    }
-
-    // float = magEn_joint1.getAngle();
-    // String message_joint3 = String(angle_joint3);
-    // mqtt.publish("ProjectGroup1.2/command/angle_joint3", message_joint3);
-    // Serial.println(message_joint3);
-    // delay(20);
-
-    // float angle_gripper = magEn_gripper.getAngle();
-    // String message_gripper = String(angle_gripper);
-    // mqtt.publish("ProjectGroup1.2/command/angle_gripper", message_gripper);
-    // Serial.println(message_gripper);
-    // delay(20);
-
-    tca.selectBus(0);
-    delay(10);
-    float angle_base = magEn_base.getAngle();
-    String message_base = String(angle_base);
-    mqtt.publish("ProjectGroup1.2/command/angle_base", message_base);
-    Serial.println("Published: " + message_base);
-
-    tca.selectBus(1);
-    delay(10);
     float angle_joint1 = magEn_joint1.getAngle();
     String message_joint1 = String(angle_joint1);
     mqtt.publish("ProjectGroup1.2/command/angle_joint1", message_joint1);
-    Serial.println("Published: " + message_joint1);
+    Serial.println(message_joint1);
     
-    tca.selectBus(4);
-    delay(10);
-    float angle_joint2 = magEn_joint2.getAngle();
-    String message_joint2 = String(angle_joint2);
-    mqtt.publish("ProjectGroup1.2/command/angle_joint2", message_joint2);
-    Serial.println("Published: " + message_joint2);
     
-    tca.selectBus(5);
-    delay(10);
-    float angle_joint3 = magEn_joint3.getAngle();
-    String message_joint3 = String(angle_joint3);
-    mqtt.publish("ProjectGroup1.2/command/angle_joint3", message_joint3);
-    Serial.println("Published: " + message_joint3);
+    // tca.selectBus(0);
+    // delay(10);
+    // float angle_base = magEn_joint1.getAngle();
+    // String message_base = String(angle_base);
+    // mqtt.publish("ProjectGroup1.2/command/angle_base", message_base);
+    // Serial.println("Published: " + message_base);
     
-    tca.selectBus(6);
-    delay(10);
-    float angle_gripper = magEn_gripper.getAngle();
-    String message_gripper = String(angle_gripper);
-    mqtt.publish("ProjectGroup1.2/command/angle_gripper", message_gripper);
-    Serial.println("Published: " + message_gripper);
+
+
+    // tca.selectBus(3);
+    // delay(10);
+    // float angle_joint1 = magEn_joint1.getAngle();
+    // String message_joint1 = String(angle_joint1);
+    // mqtt.publish("ProjectGroup1.2/command/angle_joint1", message_joint1);
+    // Serial.println("Published: " + message_joint1);
+    
+    // tca.selectBus(4);
+    // delay(10);
+    // float angle_joint2 = magEn_joint2.getAngle();
+    // String message_joint2 = String(angle_joint2);
+    // mqtt.publish("ProjectGroup1.2/command/angle_joint2", message_joint2);
+    // Serial.println("Published: " + message_joint2);
+    
+    // tca.selectBus(5);
+    // delay(10);
+    // float angle_joint3 = magEn_joint3.getAngle();
+    // String message_joint3 = String(angle_joint3);
+    // mqtt.publish("ProjectGroup1.2/command/angle_joint3", message_joint3);
+    // Serial.println("Published: " + message_joint3);
+    
+    // tca.selectBus(6);
+    // delay(10);
+    // float angle_gripper = magEn_gripper.getAngle();
+    // String message_gripper = String(angle_gripper);
+    // mqtt.publish("ProjectGroup1.2/command/angle_gripper", message_gripper);
+    // Serial.println("Published: " + message_gripper);
 }
