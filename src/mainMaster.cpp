@@ -25,7 +25,7 @@ String current_mode = "Manual";
 
 // MQTTManager mqtt(mqtt_broker, mqtt_topic, mqtt_client_id, MQTT_PORT);
 
-PIDControl pid(2.5, 0.000001, 0); // Kp Ki Kd
+PIDControl pid(1, 0.000001, 0.02); // Kp Ki Kd
 
 MagneticEn magEn_base;
 Servo servo_joint1, servo_joint2, servo_joint3, servo_gripper;

@@ -52,21 +52,25 @@ void connect() {
     // client.unsubscribe("/hello");
 }
 
+float normaliseDegree(float degree){
+  return degree > 360 ? degree - 360 : degree;
+}
+
 void setup() {
     Serial.begin(115200);
     WiFi.begin(WIFI_SSID, WIFI_PASSWORD);
     Wire.begin();
     Wire.begin(21, 22);
-    Serial.println("Scanning I2C devices...");
-    for (byte address = 1; address < 127; address++) {
-        Wire.beginTransmission(address);
-        if (Wire.endTransmission() == 0) {
-            Serial.print("Found I2C device at 0x");
-            Serial.println(address, HEX);
-        }
-    }
-    Serial.println("Scan complete.");
-    delay(3000);
+    // Serial.println("Scanning I2C devices...");
+    // for (byte address = 1; address < 127; address++) {
+    //     Wire.beginTransmission(address);
+    //     if (Wire.endTransmission() == 0) {
+    //         Serial.print("Found I2C device at 0x");
+    //         Serial.println(address, HEX);
+    //     }
+    // }
+    // Serial.println("Scan complete.");
+    // delay(3000);
 
     // wasConnected = wifi.isConnected();
 
@@ -84,43 +88,31 @@ void loop() {
         connect();
     }
 
-    // float = magEn_joint1.getAngle();
-    // String message_joint3 = String(angle_joint3);
-    // mqtt.publish("ProjectGroup1.2/command/angle_joint3", message_joint3);
-    // Serial.println(message_joint3);
-    // delay(20);
-
-    // float angle_gripper = magEn_gripper.getAngle();
-    // String message_gripper = String(angle_gripper);
-    // mqtt.publish("ProjectGroup1.2/command/angle_gripper", message_gripper);
-    // Serial.println(message_gripper);
-    // delay(20);
-
-    tca.selectBus(0);
+    tca.selectBus(7);
     delay(10);
     float angle_base = magEn_base.getAngle();
     String message_base = String(angle_base);
     mqtt.publish("ProjectGroup1.2/command/angle_base", message_base);
     Serial.println("Published: " + message_base);
 
-    tca.selectBus(1);
+    tca.selectBus(5);
     delay(10);
     float angle_joint1 = magEn_joint1.getAngle();
-    String message_joint1 = String(angle_joint1);
+    String message_joint1 = String(normaliseDegree(angle_joint1 - 49));
     mqtt.publish("ProjectGroup1.2/command/angle_joint1", message_joint1);
     Serial.println("Published: " + message_joint1);
     
     tca.selectBus(4);
     delay(10);
     float angle_joint2 = magEn_joint2.getAngle();
-    String message_joint2 = String(angle_joint2);
+    String message_joint2 = String(normaliseDegree(angle_joint2 + 11));
     mqtt.publish("ProjectGroup1.2/command/angle_joint2", message_joint2);
     Serial.println("Published: " + message_joint2);
     
-    tca.selectBus(5);
+    tca.selectBus(3);
     delay(10);
     float angle_joint3 = magEn_joint3.getAngle();
-    String message_joint3 = String(angle_joint3);
+    String message_joint3 = String(normaliseDegree(angle_joint3 + 125));
     mqtt.publish("ProjectGroup1.2/command/angle_joint3", message_joint3);
     Serial.println("Published: " + message_joint3);
     
